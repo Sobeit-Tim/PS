@@ -15,19 +15,19 @@ int answer = 0;
 int dist[101] = {0,};
 vector<pair<int, int> > v[101];
 
-int dfs(int now, int w, int val){
-    cout << now << " " << w << " " << val << endl;
+void dfs(int now, int w, int val){
+    //cout << now << " " << w << " " << val << endl;
     int result = 0;
     
     for(int i = 0; i<v[now].size(); i++){
         int p = v[now][i].first, weight = v[now][i].second;
-        cout << p <<  " " << weight << " " << dist[p] <<endl;
+        //cout << p <<  " " << weight << " " << dist[p] <<endl;
         if(w + weight <= m && dist[p] > w + weight){
             dist[p] = w + weight;
-            result += dfs(p, w + weight, val + score[p]);
+            dfs(p, w + weight, val + score[p]);
         }
     }
-    return result;
+    return;
 }
 
 int main(){
@@ -50,7 +50,12 @@ int main(){
         for(int j = 1; j<= n; j++)
             dist[j] = 987654321;
         dist[i] = 0;
-        int t = dfs(i, 0, score[i]);
+        dfs(i, 0, score[i]);
+        int t = 0;
+        for(int j = 1; j <= n; j++){
+            if(dist[j] < 987654321)
+                t += score[j];
+        }
         if (t > answer)
             answer = t;
     }
